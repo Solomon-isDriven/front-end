@@ -6,6 +6,8 @@ import { assets } from "../assets/assets";
 import { loginUser, registerUser } from "./action";
 
 
+
+
 const Login = () => {
   const [values, setValues] = useState({
     username: "",
@@ -40,24 +42,29 @@ const Login = () => {
     }
   };
 
-  const handleSubmitRegister = async (event) => {
-    event.preventDefault();
-    const { confirmPassword, ...payload } = registerValues;
+ const handleSubmitRegister = async (event) => {
+  event.preventDefault();
+  const { confirmPassword, ...payload } = registerValues;
 
-    if (registerValues.password !== confirmPassword) {
-      alert("Passwords do not match!");
-      return;
-    }
+  if (registerValues.password !== confirmPassword) {
+    alert("Passwords do not match!");
+    return;
+  }
 
-    try {
-      const data = await registerUser(payload);
-      console.log("Register successful:", data);
-      navigate("/auth?mode=login");
-    } catch (error) {
-      console.error("Register failed:", error.message);
-      alert(error.message || "Registration failed!");
-    }
-  };
+  try {
+    const data = await registerUser(payload);
+    console.log("Register successful:", data);
+    alert("Registered successfully!");
+    navigate("/auth?mode=login");
+  } catch (error) {
+    console.error("Register failed:", error.response?.data || error.message);
+    alert("Registration failed: " +
+      (error.response?.data?.message ||
+       JSON.stringify(error.response?.data?.errors) ||
+       "Unknown error")
+    );
+  }
+};
 
   return (
     <div className="auth-container">

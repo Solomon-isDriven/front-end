@@ -3,7 +3,7 @@ import api, { getCsrfToken } from '../api/axios';
 export const loginUser = async (values) => {
   try {
     await getCsrfToken();
-    const response = await api.post('/api/login', values);
+    const response = await api.post('/auth/login', values);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Login failed');
@@ -13,7 +13,7 @@ export const loginUser = async (values) => {
 export const registerUser = async (values) => {
   try {
     await getCsrfToken();
-    const response = await api.post('/api/register', values);
+    const response = await api.post('/auth/register', values);
     return response.data;
   } catch (error) {
     const errors = error.response?.data?.errors;
